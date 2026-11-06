@@ -18,6 +18,8 @@ export interface ThemeConfig {
   logo_icon: string;
   wordmark: string;
   brand_image: string;
+  stylesheet?: string;
+  fonts?: { display: string; body: string };
 }
 
 export interface Theme {
@@ -33,6 +35,7 @@ export interface Theme {
     logo_url: string;    // logo_icon → data URI
     wordmark_url: string;
     brand_image: string; // data URI
+    stylesheet?: string;
   };
   templates: {
     thumbnail: HandlebarsTemplateDelegate;
@@ -74,6 +77,13 @@ export function loadTheme(theme?: string): Theme {
   const compile = (file: string) =>
     Handlebars.compile(readFileSync(join(dir, file), "utf-8"));
 
+  const fontUrl = (file: string) =>
+    "data:font/ttf;base64," + readFileSync(join(dir, file)).toString("base64");
+  const stylesheet = cfg.stylesheet ? compile(cfg.stylesheet)({
+    display_font: cfg.fonts && fontUrl(cfg.fonts.display),
+    body_font: cfg.fonts && fontUrl(cfg.fonts.body),
+  }) : undefined;
+
   const loaded: Theme = {
     name: cfg.name,
     context: {
@@ -86,6 +96,7 @@ export function loadTheme(theme?: string): Theme {
       logo_url: svgToDataUri(join(dir, cfg.logo_icon)),
       wordmark_url: svgToDataUri(join(dir, cfg.wordmark)),
       brand_image: svgToDataUri(join(dir, cfg.brand_image)),
+      stylesheet,
     },
     templates: {
       thumbnail: compile("thumbnail.html"),

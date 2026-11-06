@@ -1,0 +1,63 @@
+@font-face { font-family: Racing; src: url({{{display_font}}}); }
+@font-face { font-family: Plex; src: url({{{body_font}}}); font-weight: 100 700; }
+* { box-sizing: border-box; }
+html, body { width: 720px; height: 900px; margin: 0; }
+body { background: #141127; color: #faf6ff; font-family: Plex, sans-serif; }
+.page { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.cover, .detail { background: radial-gradient(ellipse at 97% 26%, #513355, transparent 58%); }
+.photo {
+  position: absolute; inset: 0; width: 100%; height: 690px;
+  object-fit: cover; object-position: center 22%;
+}
+.shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #130f2a9e, transparent 19%, transparent 34%,
+    #19132e52 47%, #19132eeb 64%, #141127 75%);
+}
+.top {
+  position: absolute; inset: 36px 47px auto; display: flex; align-items: center;
+  justify-content: space-between; font-size: 15px; font-weight: 650; letter-spacing: .17em;
+}
+.brand { display: inline-flex; align-items: center; gap: 9px; text-transform: uppercase; }
+.brand::before {
+  content: ""; width: 22px; height: 10px; background: #f6a7d5; transform: skewX(-31deg);
+}
+.page-no { font-size: 13px; border: 1px solid #ffffff56; padding: 7px 11px; }
+.cover-copy { position: absolute; inset: auto 47px 218px; }
+.kicker {
+  color: #ffc4e7; font-size: 16px; font-weight: 680; letter-spacing: .12em;
+  text-transform: uppercase; overflow-wrap: anywhere;
+}
+h1 { margin: 9px 0 14px; font: 78px/.95 Racing, Plex, sans-serif; letter-spacing: -.018em; }
+.cover h1 { text-wrap: balance; }
+.deck { margin: 0; color: #eae2f1; font-size: 19px; line-height: 1.23; overflow-wrap: anywhere; }
+.stat, .prompt {
+  position: absolute; inset: auto 47px 63px; height: 127px;
+  border-block: 1px solid #c5a4c862; align-items: center;
+}
+.stat { display: grid; grid-template-columns: minmax(0, 1fr) 87px minmax(0, 1fr) 153px; }
+.number { font: 72px/.88 Racing, Plex, sans-serif; letter-spacing: -.025em; white-space: nowrap; }
+.stat b, .prompt { font-size: 12px; font-weight: 650; letter-spacing: .10em; }
+.stat b { display: block; margin-top: 7px; text-transform: uppercase; overflow-wrap: anywhere; }
+.stat svg { width: 51px; height: 34px; color: #ffb4df; }
+.accent, .gain { color: #ffb4df; }
+.gain { border-left: 1px solid #c5a4c862; padding-left: 20px; }
+.gain .number { font-size: 49px; }
+.prompt { display: flex; justify-content: space-between; font-size: 15px; color: #ffc4e7; }
+.prompt span { font-size: 32px; }
+footer {
+  position: absolute; inset: auto 47px 26px; display: flex; justify-content: space-between;
+  gap: 16px; color: #ddd0e4; font-size: 11px; line-height: 1.16; letter-spacing: .035em;
+}
+footer > :first-child { flex-shrink: 0; }
+.credit { text-align: right; overflow-wrap: anywhere; }
+.detail-copy { position: absolute; inset: 146px 47px auto; }
+.detail h1 { font-size: 84px; }
+.story { margin-top: 33px; font-size: 30px; line-height: 1.26; color: #f1e9f5; }
+.story :is(p, ul) { margin: 0; padding: 0; list-style: none; white-space: pre-wrap; }
+.story li, .story p { padding: .48em .1em .48em 1em; border-top: 1px solid #c5a4c862; }
+.story li { position: relative; }
+.story li::before {
+  content: ""; position: absolute; left: 0; top: 1.03em;
+  width: .42em; height: 2px; background: #ffb4df;
+}

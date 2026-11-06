@@ -1,0 +1,17 @@
+{
+  "name": "Pista Abierta",
+  "primary_color": "#141127",
+  "accent_color": "#ffb4df",
+  "ink_color": "#faf6ff",
+  "closing_tint": "#141127",
+  "font": "Plex",
+  "brand_name": "Pista Abierta",
+  "logo_icon": "mark.svg",
+  "wordmark": "mark.svg",
+  "brand_image": "mark.svg",
+  "stylesheet": "theme.css",
+  "fonts": {
+    "display": "BarlowCondensed-ExtraBoldItalic.ttf",
+    "body": "IBMPlexSans.ttf"
+  }
+}

@@ -3,6 +3,22 @@ import { loadTheme } from "../renderer/theme-loader.js";
 import { renderHtmlToPng } from "../renderer/playwright.js";
 import { createStorage, type StorageResult } from "../storage/index.js";
 
+const ComparisonValue = z.object({
+  label: z.string().min(1).max(36),
+  value: z.string().min(1).max(8),
+});
+const EditorialSchema = z.object({
+  subtitle: z.string().max(160).optional(),
+  credit: z.string().max(160).optional(),
+  focus: z.object({ x: z.number().min(0).max(100), y: z.number().min(0).max(100) }).optional(),
+  lines: z.array(z.string().min(1).max(1200)).min(1).max(8).optional(),
+  comparison: z.object({
+    start: ComparisonValue,
+    end: ComparisonValue,
+    change: ComparisonValue,
+  }).optional(),
+});
+
 const CardSchema = z.object({
   type: z.enum(["thumbnail", "body", "closing"]),
   index: z.number().int().min(0),
@@ -11,6 +27,7 @@ const CardSchema = z.object({
   image_url: z.string().url().optional(),
   page_number: z.number().int().optional(),
   category: z.string().optional(),
+  editorial: EditorialSchema.optional(),
 });
 
 // 브랜드 오버라이드 — 미지정 시 테마 기본값 사용
@@ -64,33 +81,48 @@ export async function renderCardNews(
   const results: RenderedCard[] = [];
 
   for (const card of input.cards) {
+    const context = {
+      ...base,
+      editorial: card.editorial,
+      sequence_number: String(results.length + 1).padStart(2, "0"),
+      sequence_total: String(input.cards.length).padStart(2, "0"),
+      has_more_cards: input.cards.length > 1,
+    };
     let html: string;
 
     if (card.type === "thumbnail") {
       html = theme.templates.thumbnail({
-        ...base,
+        ...context,
         title: card.title ?? "",
         image_url: card.image_url,
         category: card.category,
       });
     } else if (card.type === "body") {
       html = theme.templates.body({
-        ...base,
+        ...context,
         title: card.title ?? "",
         body: card.body ?? "",
         image_url: card.image_url,
         page_number: card.page_number ?? card.index,
         total_pages,
+        category: card.category,
       });
     } else {
       html = theme.templates.closing({
-        ...base,
+        ...context,
         cta: (base as any).cta ?? "지금 팔로우하세요",
         image_url: card.image_url ?? thumbnailImage,
       });
     }
 
-    const png = await renderHtmlToPng(html);
+    let png: Buffer;
+    try {
+      png = await renderHtmlToPng(html);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error("Card " + (results.length + 1) + " (" + card.type + "): " + message,
+        { cause: error });
+    }
     const stored = await storage.save(`${id}/${card.index}_${card.type}`, png);
     results.push({ index: card.index, type: card.type, ...stored });
   }

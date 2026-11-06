@@ -1,0 +1,33 @@
+{
+  "id": "pista-abierta-demo",
+  "theme": "pista-abierta",
+  "cards": [
+    {
+      "type": "thumbnail",
+      "index": 1,
+      "category": "GP DE DEMOSTRACIÓN / VUELTA 1",
+      "title": "Cuatro puestos en la primera vuelta",
+      "editorial": {
+        "subtitle": "La grilla y el cierre del primer giro",
+        "comparison": {
+          "start": { "value": "11.º", "label": "En la grilla" },
+          "end": { "value": "7.º", "label": "Cierre vuelta 1" },
+          "change": { "value": "+4", "label": "Posiciones netas" }
+        }
+      }
+    },
+    {
+      "type": "body",
+      "index": 2,
+      "category": "GP DE DEMOSTRACIÓN / VUELTA 1",
+      "title": "De la grilla al cierre de vuelta",
+      "editorial": {
+        "lines": [
+          "11.º en la grilla.",
+          "7.º en el registro al cierre del primer giro.",
+          "La diferencia muestra el cambio neto de posición."
+        ]
+      }
+    }
+  ]
+}

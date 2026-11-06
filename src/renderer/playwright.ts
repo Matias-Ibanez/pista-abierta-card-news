@@ -46,6 +46,32 @@ export async function renderHtmlToPng(html: string): Promise<Buffer> {
     await page.setContent(html, { waitUntil: "networkidle" });
     // 폰트/이미지 로딩 대기
     await page.waitForTimeout(300);
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      for (const image of document.querySelectorAll<HTMLImageElement>("[data-required-image]")) {
+        if (!image.complete || !image.naturalWidth) throw new Error("Cover photo did not load");
+      }
+      for (const element of document.querySelectorAll<HTMLElement>("[data-fit-height]")) {
+        const initial = Math.floor(parseFloat(getComputedStyle(element).fontSize));
+        const minimum = Number(element.dataset.fitMin);
+        const maxHeight = Number(element.dataset.fitHeight);
+        const preferredLines = Number(element.dataset.fitLines);
+        let fitted = false;
+        for (const lines of preferredLines ? [preferredLines, Infinity] : [Infinity]) {
+          for (let size = initial; size >= minimum; size--) {
+            element.style.fontSize = size + "px";
+            const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+            const height = Math.min(maxHeight, lineHeight * lines + 1);
+            if (element.scrollHeight <= height && element.scrollWidth <= element.clientWidth + 1) {
+              fitted = true;
+              break;
+            }
+          }
+          if (fitted) break;
+        }
+        if (!fitted) throw new Error("Text does not fit: " + element.dataset.fitLabel);
+      }
+    });
     const screenshot = await page.screenshot({
       type: "png",
       clip: { x: 0, y: 0, width: CARD_CSS_WIDTH, height: CARD_CSS_HEIGHT },

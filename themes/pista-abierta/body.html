@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<meta charset="UTF-8">
+<style>{{{stylesheet}}}</style>
+<main class="page detail">
+  <header class="top">
+    <span class="brand">{{brand_name}}</span>
+    <span class="page-no">{{sequence_number}} / {{sequence_total}}</span>
+  </header>
+  <section class="detail-copy">
+    <div class="kicker">{{category}}</div>
+    <h1 data-fit-height="171" data-fit-min="40" data-fit-label="título de detalle">{{title}}</h1>
+    <div class="story" data-fit-height="386" data-fit-min="21" data-fit-label="texto de detalle">
+      {{#if editorial.lines}}
+      <ul>{{#each editorial.lines}}<li>{{this}}</li>{{/each}}</ul>
+      {{else}}
+      <p>{{body}}</p>
+      {{/if}}
+    </div>
+  </section>
+  <footer><span>DATOS · OPENF1</span><span>ANÁLISIS DE SESIÓN</span></footer>
+</main>
+</html>

@@ -1,5 +1,32 @@
 # card-news
 
+## Pista Abierta
+
+Este fork incorpora un tema fotográfico para noticias de Fórmula 1. Genera
+una portada y placas de detalle en PNG de 1080 × 1350. Cada placa se numera
+según su orden en el carrusel.
+
+```sh
+npm ci --omit=optional
+npm run build
+npx playwright install chromium
+node dist/render-cli.js examples/pista-abierta.json --out card-news-out
+```
+
+El ejemplo usa datos de demostración y permite probar el flujo localmente.
+Para una portada fotográfica, completá `image_url` con una URL de imagen o
+un data URL. `editorial.credit` imprime el crédito y `editorial.focus` acepta
+`x` e `y` entre 0 y 100 para ajustar el encuadre (50 y 22 por defecto).
+`editorial.comparison` dibuja la franja de tres valores si la noticia la
+necesita. Las placas de detalle reciben `editorial.lines` con una afirmación
+por renglón.
+
+El motor mide el texto con las fuentes cargadas antes de exportar. La portada
+prioriza dos líneas para el titular. Un texto que excede el espacio disponible
+en el tamaño mínimo produce un error con la placa afectada.
+
+Las tipografías Barlow e IBM Plex Sans y sus licencias OFL están junto al tema.
+
 > 🇰🇷 한국어 문서는 [README.ko.md](./README.ko.md) 를 보세요.
 
 A **Claude Code plugin** that produces post-ready **Instagram-style card news**

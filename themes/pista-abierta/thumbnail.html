@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<meta charset="UTF-8">
+<style>{{{stylesheet}}}</style>
+<main class="page cover">
+  {{#if image_url}}
+  <img class="photo" src="{{image_url}}" alt="" data-required-image
+    {{#if editorial.focus}}style="object-position: {{editorial.focus.x}}% {{editorial.focus.y}}%"{{/if}}>
+  {{/if}}
+  <div class="shade"></div>
+  <header class="top">
+    <span class="brand">{{brand_name}}</span>
+    <span class="page-no">{{sequence_number}} / {{sequence_total}}</span>
+  </header>
+  <section class="cover-copy">
+    <div class="kicker">{{category}}</div>
+    <h1 data-fit-height="175" data-fit-min="49" data-fit-lines="2" data-fit-label="titular">{{title}}</h1>
+    {{#if editorial.subtitle}}<p class="deck">{{editorial.subtitle}}</p>{{/if}}
+  </section>
+  {{#with editorial.comparison}}
+  <div class="stat">
+    <div>
+      <div class="number" data-fit-height="70" data-fit-min="29" data-fit-label="valor inicial">{{start.value}}</div>
+      <b>{{start.label}}</b>
+    </div>
+    <svg viewBox="0 0 51 34" fill="none" aria-hidden="true">
+      <path d="M2 17H46M31 3L47 17L31 31" stroke="currentColor" stroke-width="3"/>
+    </svg>
+    <div>
+      <div class="number accent" data-fit-height="70" data-fit-min="29" data-fit-label="valor final">{{end.value}}</div>
+      <b>{{end.label}}</b>
+    </div>
+    <div class="gain">
+      <div class="number" data-fit-height="55" data-fit-min="24" data-fit-label="diferencia">{{change.value}}</div>
+      <b>{{change.label}}</b>
+    </div>
+  </div>
+  {{else}}
+  {{#if has_more_cards}}<div class="prompt">VER EL DETALLE <span>→</span></div>{{/if}}
+  {{/with}}
+  <footer><span>DATOS · OPENF1</span><span class="credit">{{editorial.credit}}</span></footer>
+</main>
+</html>
